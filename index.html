@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Black Nova — Игровой ПК</title>
+  <style>
+    :root {
+      --bg-color: #0f0f0f;
+      --text-color: #f2f2f2;
+      --card-bg: #1a1a1a;
+      --accent-color: #0070f3;
+      --shadow: rgba(0, 0, 0, 0.3);
+    }
+    body.light {
+      --bg-color: #ffffff;
+      --text-color: #0f0f0f;
+      --card-bg: #f0f0f0;
+      --accent-color: #0070f3;
+      --shadow: rgba(0, 0, 0, 0.1);
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      transition: background 0.3s, color 0.3s;
+    }
+    header {
+      background-color: var(--card-bg);
+      padding: 30px;
+      text-align: center;
+      border-bottom: 2px solid #2a2a2a;
+      position: relative;
+    }
+    header h1 {
+      font-size: 36px;
+      margin: 0;
+    }
+    .theme-toggle {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: none;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      color: var(--text-color);
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+    .product {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 40px;
+      align-items: center;
+    }
+    .product img {
+      max-width: 420px;
+      border-radius: 12px;
+      width: 100%;
+      box-shadow: 0 0 20px var(--shadow);
+    }
+    .details {
+      flex: 1 1 500px;
+    }
+    .details h2 {
+      font-size: 28px;
+      margin-bottom: 20px;
+    }
+    h2 {
+      margin-top: 60px;
+      font-size: 24px;
+      border-bottom: 1px solid #333;
+      padding-bottom: 10px;
+    }
+    .specs {
+      font-size: 18px;
+      white-space: pre-line;
+      line-height: 1.8;
+    }
+    .price {
+      margin-top: 20px;
+      font-size: 22px;
+      color: var(--accent-color);
+    }
+    .parts {
+      display: flex;
+      gap: 30px;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+    .part {
+      background-color: var(--card-bg);
+      padding: 20px;
+      border-radius: 12px;
+      width: 220px;
+      text-align: center;
+      box-shadow: 0 0 10px var(--shadow);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .part:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 0 15px var(--accent-color);
+    }
+    .part img {
+      max-width: 100%;
+      height: 140px;
+      object-fit: contain;
+    }
+    .reviews {
+      margin-top: 60px;
+    }
+    .reviews h3 {
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+    .review {
+      background-color: var(--card-bg);
+      padding: 20px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      box-shadow: 0 0 10px var(--shadow);
+    }
+    .order-button {
+      margin-top: 40px;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 20px;
+      background-color: #0070f3;
+      color: white;
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    footer {
+      text-align: center;
+      padding: 30px;
+      background-color: var(--card-bg);
+      color: #777;
+      margin-top: 60px;
+    }
+    @media (max-width: 768px) {
+      .product {
+        flex-direction: column;
+      }
+      .controls {
+        flex-direction: column;
+        align-items: stretch;
+      }
+    }
+    .controls {
+      margin-top: 40px;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    .modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0; top: 0;
+  width: 100%; height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  align-items: center;
+  justify-content: center;
+}
+.modal-content {
+  background-color: var(--card-bg);
+  padding: 30px;
+  border-radius: 12px;
+  color: var(--text-color);
+  max-width: 400px;
+  box-shadow: 0 0 20px var(--shadow);
+  position: relative;
+  text-align: center;
+}
+.close {
+  position: absolute;
+  top: 10px; right: 15px;
+  font-size: 24px;
+  cursor: pointer;
+  color: var(--text-color);
+}
+
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🖤 Black Nova — Игровой ПК</h1>
+    <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
+  </header>
+
+  <div class="container">
+    <div class="product">
+      <img src="comp.png" alt="Black Nova Computer">
+      <div class="details">
+        <h2>🔍Характеристики сборки</h2>
+        <div class="specs">
+          🧠 <strong>Процессор:</strong> Intel Core i5-13400F
+          ❄️ <strong>Охлаждение:</strong> DeepCool AG400 BK ARGB
+          🎮 <strong>Видеокарта:</strong> NVIDIA RTX 4060 Ti Dual
+          🧩 <strong>ОЗУ:</strong> 16 GB DDR4 2666 MHz (2×8)
+          📦 <strong>Материнская плата:</strong> ASUS PRIME B760M-R D4
+          💾 <strong>Хранилище:</strong> 2× SSD + HDD
+          🔋 <strong>Блок питания:</strong> Zalman ZM700-LXI (700W)
+          🖤 <strong>Корпус:</strong> 1stPlayer Miku MIZ-A (Black, ARGB)
+          🌬️ <strong>Воздушный поток:</strong> 2×120мм снизу, 1×120мм сзади, 2×140мм сверху
+        </div>
+        <div class="price">x
+          💵 Общая стоимость: ≈ 2800 BYN / ≈ 75 632 ₽
+        </div>
+        <div class="controls">
+          <button class="order-button">Заказать</button>
+        </div>
+        <!-- Модальное окно -->
+      <div id="modal" class="modal">
+        <div class="modal-content">
+          <span class="close" onclick="closeModal()">&times;</span>
+          <p>🎉 Спасибо за интерес к Black Nova! Мы скоро свяжемся с вами для оформления заказа.</p>
+        </div>
+      </div>
+      </div>
+    </div>
+    <h2>Комплектующие</h2>
+    <div class="parts">
+      <div class="part">
+        <img src="proc.png" alt="i5">
+        <p><strong>Intel Core i5-13400F</strong></p>
+      </div>
+      <div class="part">
+        <img src="kuler.png" alt="cooler">
+        <p><strong>DeepCool AG400 BK ARGB</strong></p>
+      </div>
+      <div class="part">
+        <img src="GPU.png" alt="gpu">
+        <p><strong>RTX 4060 Ti Dual</strong></p>
+      </div>
+      <div class="part">
+        <img src="mat.png" alt="mb">
+        <p><strong>ASUS PRIME RD4 D4</strong></p>
+      </div>
+    </div>
+
+    <div class="reviews">
+      <h3>Отзывы пользователей</h3>
+      <div id="reviews-container"></div>
+    </div>
+  </div>
+
+  <footer>
+    © 2025 Black Nova Build — Создано с любовью к технологиям
+  </footer>
+
+  <script>
+    function toggleTheme() {
+      document.body.classList.toggle('light');
+      const icon = document.querySelector('.theme-toggle');
+      icon.textContent = document.body.classList.contains('light') ? '☀️' : '🌙';
+    }
+
+    fetch('reviews.json')
+      .then(response => response.json())
+      .then(data => {
+        const container = document.getElementById('reviews-container');
+        data.forEach(({ name, text, rating }) => {
+          const stars = '★'.repeat(rating);
+          const avatar = name[0].toUpperCase();
+          const div = document.createElement('div');
+          div.className = 'review';
+          div.innerHTML = `
+            <div style="display:flex; align-items:center; margin-bottom:10px;">
+              <div style="
+                width: 36px;
+                height: 36px;
+                background: #444;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: white;
+                font-weight: bold;
+                font-size: 16px;
+                margin-right: 12px;
+                flex-shrink: 0;
+              ">${avatar}</div>
+              <div><strong>${name}</strong></div>
+              <div style="margin-left:auto; color: gold;">${stars}</div>
+            </div>
+            <div>${text}</div>
+          `;
+          container.appendChild(div);
+        });
+      });
+      const modal = document.getElementById('modal');
+const orderButton = document.querySelector('.order-button');
+
+orderButton.addEventListener('click', () => {
+  modal.style.display = 'flex';
+});
+
+function closeModal() {
+  modal.style.display = 'none';
+}
+
+window.addEventListener('click', (e) => {
+  if (e.target === modal) {
+    closeModal();
+  }
+});
+
+  </script>
+</body>
+</html>
