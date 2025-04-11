@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Конфигуратор Black Nova</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+  <style>
+        :root {
+      --bg-color: #0f0f0f;
+      --text-color: #f2f2f2;
+      --card-bg: #1a1a1a;
+      --accent-color: #0070f3;
+      --shadow: rgba(0, 0, 0, 0.3);
+    }
+    body.light {
+      --bg-color: #ffffff;
+      --text-color: #0f0f0f;
+      --card-bg: #f0f0f0;
+      --accent-color: #0070f3;
+      --shadow: rgba(0, 0, 0, 0.1);
+    }
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      transition: background 0.3s, color 0.3s;
+    }
+    header {
+      padding: 30px;
+      text-align: center;
+      background-color: #1a1a1a;
+      border-bottom: 2px solid #333;
+    }
+    header h1 {
+      font-size: 36px;
+      margin: 0;
+      color: #fff;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+    .grid {
+      display: flex;
+      gap: 30px;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+    .component {
+      background: #1a1a1a;
+      padding: 20px;
+      border-radius: 12px;
+      text-align: center;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+      transition: transform 0.3s;
+    }
+    .component:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+    }
+    .component img {
+      width: 100%;
+      max-height: 150px;
+      object-fit: contain;
+      margin-bottom: 15px;
+      transition: transform 0.3s;
+    }
+    .component:hover img {
+      transform: scale(1.1);
+    }
+    select {
+      padding: 12px;
+      border-radius: 8px;
+      border: none;
+      width: 100%;
+      background-color: #333;
+      color: #f2f2f2;
+      font-size: 16px;
+      margin-top: 10px;
+      transition: background-color 0.3s;
+    }
+    select:hover {
+      background-color: #444;
+    }
+    .summary, .preview-card {
+      margin-top: 40px;
+      background-color: #1a1a1a;
+      padding: 20px;
+      border-radius: 12px;
+      text-align: center;
+      font-size: 18px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    }
+    .summary p, .preview-card p {
+      font-size: 22px;
+      font-weight: bold;
+    }
+    .btn {
+      background-color: #0070f3;
+      color: white;
+      padding: 12px 24px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 20px;
+      transition: background-color 0.3s;
+    }
+    .btn:hover {
+      background-color: #0059c9;
+    }
+    footer {
+      text-align: center;
+      padding: 30px;
+      background-color: #1a1a1a;
+      color: #777;
+      margin-top: 60px;
+    }
+    .controls {
+      margin-top: 40px;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    .order-button {
+      margin-top: 40px;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 20px;
+      background-color: #0070f3;
+      color: white;
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    footer p {
+      font-size: 14px;
+    }
+        /* Адаптация под мобильные */
+    @media (max-width: 768px) {
+      .product {
+        flex-direction: column;
+        gap: 20px;
+      }
+      .parts {
+        justify-content: center;
+      }
+      .part {
+        width: 45%;
+      }
+      .controls {
+        flex-direction: column;
+        align-items: stretch;
+      }
+    }
+
+    @media (max-width: 480px) {
+      header h1 {
+        font-size: 24px;
+      }
+      .details h2 {
+        font-size: 22px;
+      }
+      .specs {
+        font-size: 16px;
+      }
+      .price {
+        font-size: 18px;
+      }
+      .part {
+        width: 100%;
+      }
+      .modal-content {
+        width: 90%;
+        padding: 20px;
+      }
+      .order-button {
+        font-size: 16px;
+        padding: 12px;
+        width: 100%;
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🛠 Конфигуратор Black Nova</h1>
+  </header>
+
+  <div class="container">
+    <div class="grid" id="config-grid">
+      <!-- Компоненты будут добавлены скриптом -->
+    </div>
+
+    <div class="summary" id="summary">
+      💵 Примерная цена: <strong id="total-price">0</strong> BYN
+    </div>
+    <div class="controls"></div>
+    <button class="btn" onclick="submitBuild()">Оформить сборку</button>
+    <a href="index.html" class="btn">🛠 Конфигуратор</a>
+    </div> 
+
+    <div class="preview-card" id="preview" style="display:none;">
+      <h3>🖤 Ваша сборка:</h3>
+      <ul id="preview-list" style="text-align:left;"></ul>
+      <p>💵 Цена: <strong id="preview-price"></strong> BYN</p>
+    </div>
+  </div>
+
+  <footer>
+    <p>© 2025 Black Nova Team — Конфигурация мечты в ваших руках</p>
+  </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script>
+    const components = [
+      {
+        name: 'Процессор',
+        image: 'proc.png',
+        options: [
+          { name: 'Intel Core i5-13400F', price: 400 },
+          { name: 'AMD Ryzen 5 5600X', price: 350 },
+          { name: 'Intel Core i7-13700K', price: 650 },
+        ]
+      },
+      {
+        name: 'Видеокарта',
+        image: 'GPU.png',
+        options: [
+          { name: 'NVIDIA RTX 4060 Ti', price: 900 },
+          { name: 'NVIDIA RTX 4070', price: 1200 },
+          { name: 'AMD Radeon RX 6750 XT', price: 950 },
+        ]
+      },
+      {
+        name: 'Охлаждение',
+        image: 'kuler.png',
+        options: [
+          { name: 'DeepCool AG400 BK', price: 90 },
+          { name: 'be quiet! Pure Rock 2', price: 110 },
+          { name: 'Noctua NH-U12S', price: 150 },
+        ]
+      },
+      {
+        name: 'Материнская плата',
+        image: 'mat.png',
+        options: [
+          { name: 'ASUS PRIME B760M', price: 300 },
+          { name: 'MSI B550M PRO', price: 280 },
+          { name: 'Gigabyte Z690M DS3H', price: 360 },
+        ]
+      }
+    ];
+
+    const selections = {};
+
+    function renderConfigurator() {
+      const grid = document.getElementById('config-grid');
+      grid.innerHTML = '';
+      components.forEach((comp, index) => {
+        const div = document.createElement('div');
+        div.className = 'component';
+        div.innerHTML = `
+          <img src="${comp.image}" alt="${comp.name}">
+          <h3>${comp.name}</h3>
+          <select onchange="updatePrice()" id="comp-${index}">
+            ${comp.options.map((opt, i) => `<option value="${i}">${opt.name} — ${opt.price} BYN</option>`).join('')}
+          </select>
+        `;
+        grid.appendChild(div);
+      });
+      updatePrice();
+    }
+
+    function updatePrice() {
+      let total = 0;
+      components.forEach((comp, index) => {
+        const select = document.getElementById(`comp-${index}`);
+        const selected = comp.options[select.value];
+        selections[comp.name] = selected.name;
+        total += selected.price;
+      });
+      document.getElementById('total-price').textContent = total;
+    }
+
+    function submitBuild() {
+      const price = document.getElementById('total-price').textContent;
+      const preview = document.getElementById('preview');
+      const list = document.getElementById('preview-list');
+      list.innerHTML = '';
+      for (const [key, value] of Object.entries(selections)) {
+        const li = document.createElement('li');
+        li.textContent = `${key}: ${value}`;
+        list.appendChild(li);
+      }
+      document.getElementById('preview-price').textContent = price;
+      preview.style.display = 'block';
+
+      // Сохраняем в localStorage
+      const build = {
+        components: selections,
+        price: price,
+        date: new Date().toLocaleString()
+      };
+      localStorage.setItem('blackNovaBuild', JSON.stringify(build));
+
+      // Показываем алерт
+      Swal.fire({
+        icon: 'success',
+        title: '🎉 Сборка сохранена!',
+        text: 'Данные сохранены в вашем браузере.',
+        confirmButtonText: 'Ок'
+      });
+    }
+
+    renderConfigurator();
+  </script>
+</body>
+</html>
